@@ -1,8 +1,25 @@
 ---
-apiVersion: getambassador.io/v2
-kind: Mapping
+#apiVersion: getambassador.io/v2
+#kind: Mapping
+#metadata:
+#  name: mapping-2048
+#spec:
+#  prefix: /2048-game/
+#  service: "svc-2048:8000"
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: mapping-2048
+  name: 2048-app
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
-  prefix: /2048-game/
-  service: "svc-2048:8000"
+  rules:
+  #- host: 2048-app.com
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: "svc-2048"
+          servicePort: 8000
